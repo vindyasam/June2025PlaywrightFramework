@@ -1,0 +1,14 @@
+
+# Playwright / Allure generated stuff
+node_modules/
+/test-results/
+/playwright-report/
+/playwright-html-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+/allure-results/
+/allure-report/
+/allure-reportallure/
+
