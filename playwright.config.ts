@@ -35,7 +35,7 @@ export default defineConfig({
   use: {
     
     trace: 'on-first-retry',
-    headless: false,
+    headless: true,
     screenshot: 'on',
     video: 'on',
     baseURL: 'https://naveenautomationlabs.com/opencart/index.php',
