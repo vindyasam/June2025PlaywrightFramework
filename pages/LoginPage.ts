@@ -53,9 +53,23 @@ export class LoginPage{
      * @returns 
      */
     async getInvalidLoginMessage(): Promise<string | null> {
-        const errorMesg = await this.eleUtil.getText(this.warningMsg);
-        console.log('invalid login warning message: ' + errorMesg);
-        return errorMesg;
+        // const errorMesg = await this.eleUtil.getText(this.warningMsg);
+        // console.log('invalid login warning message: ' + errorMesg);
+        // return errorMesg;
+      //Wait until the warning banner is visible
+   await this.warningMsg.waitFor({ state: 'visible' });
+
+    // Grab the raw text from the element
+    const rawText = await this.warningMsg.textContent();
+
+    // The banner usually contains a close “×” and extra spaces/new lines.
+    // Clean that up so the assertion is more stable.
+    const errorMesg = (rawText ?? '')
+        .replace('×', '')        // remove the close icon if present
+        .trim();
+
+    console.log('invalid login warning message: ' + errorMesg);
+    return errorMesg;
     }
 
     async navigateToRegisterPage(): Promise<RegisterPage> {
