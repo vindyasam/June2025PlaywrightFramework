@@ -417,43 +417,28 @@ pipeline {
         // ============================================
         // Generate Combined Allure Report (All Environments)
         // ============================================
-        stage('📈 Combined Allure Report') {
-            steps {
-                echo '============================================'
-                echo '📊 Generating Combined Allure Report...'
-                echo '============================================'
+stage('📈 Combined Allure Report') {
+    steps {
+        echo '============================================'
+        echo '📊 Generating Combined Allure Report (DEV, QA, STAGE, PROD)...'
+        echo '============================================'
 
-                sh '''
-                    # Create combined results directory
-                    mkdir -p allure-results-combined
-                    
-                    # Copy all environment results
-                    cp -r allure-results-dev/* allure-results-combined/ 2>/dev/null || true
-                    cp -r allure-results-qa/* allure-results-combined/ 2>/dev/null || true
-                    cp -r allure-results-stage/* allure-results-combined/ 2>/dev/null || true
-                    cp -r allure-results-prod/* allure-results-combined/ 2>/dev/null || true
-                    
-                    # Create combined environment.properties
-                    echo "Environment=ALL (DEV, QA, STAGE, PROD)" > allure-results-combined/environment.properties
-                    echo "Browser=Google Chrome" >> allure-results-combined/environment.properties
-                    echo "Pipeline=${JOB_NAME}" >> allure-results-combined/environment.properties
-                    echo "Build=${BUILD_NUMBER}" >> allure-results-combined/environment.properties
-                '''
-            }
-            post {
-                always {
-                    // Generate Combined Allure Report using Allure Jenkins Plugin
-                    allure([
-                        includeProperties: true,
-                        jdk: '',
-                        properties: [],
-                        reportBuildPolicy: 'ALWAYS',
-                        results: [[path: 'allure-results-combined']]
-                    ])
-                }
-            }
-        }
+        allure([
+            includeProperties: true,
+            jdk: '',
+            properties: [],
+            reportBuildPolicy: 'ALWAYS',
+            results: [
+                [path: 'allure-results-dev'],
+                [path: 'allure-results-qa'],
+                [path: 'allure-results-stage'],
+                [path: 'allure-results-prod']
+            ]
+        ])
     }
+}
+
+
 
     // ============================================
     // Post-Build Actions (Notifications)
