@@ -24,7 +24,7 @@
 // - Email Extension Plugin
 // - Pipeline Stage View Plugin
 // ============================================
-#!/bin/bash
+
 
 pipeline {
     agent any
