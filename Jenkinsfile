@@ -107,9 +107,13 @@ pipeline {
         stage('🔧 DEV Tests') {
             steps {
                 echo '============================================'
-                echo '🎭 Installing Playwright browsers...'
+                echo '🎭 Installing Playwright browsers (if needed)...'
                 echo '============================================'
-                sh 'npx playwright install --with-deps chromium --timeout=600000'
+                sh '''
+                # Try to install browsers, but don't fail the pipeline if it errors
+                npx playwright install --with-deps chromium || echo "Playwright install failed or browsers already installed, continuing..."
+                '''
+
 
                 echo '============================================'
                 echo '🧹 Cleaning previous results...'
