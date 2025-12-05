@@ -24,6 +24,7 @@
 // - Email Extension Plugin
 // - Pipeline Stage View Plugin
 // ============================================
+#!/bin/bash
 
 pipeline {
     agent any
@@ -36,6 +37,7 @@ pipeline {
         NODE_VERSION = '20'
         CI = 'true'
         PLAYWRIGHT_BROWSERS_PATH = "${WORKSPACE}/.cache/ms-playwright"
+        PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT = "600000"
         //SLACK_WEBHOOK_URL = credentials('slack-webhook-token')
         // Email recipients - update these with your actual email addresses
         //EMAIL_RECIPIENTS = 'naveenanimation20@gmail.com, submit@naveenautomationlabs.com'
@@ -107,7 +109,7 @@ pipeline {
                 echo '============================================'
                 echo '🎭 Installing Playwright browsers...'
                 echo '============================================'
-                sh 'npx playwright install --with-deps chromium'
+                sh 'npx playwright install --with-deps chromium --timeout=600000'
 
                 echo '============================================'
                 echo '🧹 Cleaning previous results...'
